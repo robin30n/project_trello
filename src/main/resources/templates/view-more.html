@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html">
+<div layout:fragment="main_page">
+
+    <div class="row">
+        <div class="col-6 mx-auto">
+            <form action="/update-task" method="post">
+
+                <input type="hidden" name="folder.id" th:value="${folder.id}">
+                <input type="hidden" name="id" th:value="${task.id}">
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>Title: </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <input type="text" class="form-control" name="title" th:value="${task.title}">
+                    </div>
+                </div>
+
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>Description: </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <input type="text" class="form-control" name="description" th:value="${task.description}">
+                    </div>
+                </div>
+
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>Status: </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <select class="form-select" name="status">
+                            <option th:if="${task.status.name()!='IN_TEST'&&task.status.name()!='DONE'&&task.status.name()!='FAILED'}"
+                                    th:selected="${task.status.name()=='TODO'}" th:text="${task.status.TODO}"
+                                    th:value="${task.status.TODO.name()}"></option>
+
+                            <option th:if="${task.status.name()!='DONE'&&task.status.name()!='FAILED'}"
+                                    th:selected="${task.status.name()=='IN_TEST'}" th:text="${task.status.IN_TEST}"
+                                    th:value="${task.status.IN_TEST.name()}"></option>
+
+                            <option th:if="${task.status.name()!='FAILED'}" th:selected="${task.status.name()=='DONE'}"
+                                    th:text="${task.status.DONE}"
+                                    th:value="${task.status.DONE.name()}"></option>
+
+                            <option th:selected="${task.status.name()=='FAILED'}"
+                                    th:text="${task.status.FAILED}"
+                                    th:value="${task.status.FAILED.name}"></option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="row mt-3">
+                    <button class="btn btn-info">Update movie</button>
+                </div>
+                <div class="row mt-3">
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#deleteTask">
+                        - Delete Task
+                    </button>
+                </div>
+            </form>
+            <form action="/add-comment" method="post">
+                <input type="hidden" name="task.id" th:value="${task.id}">
+                <input type="hidden" name="folderId" th:value="${folder.id}">
+                <div class="row my-3">
+                    <button class="btn-success btn">
+                        Add Comment
+                    </button>
+                </div>
+                <textarea class="form-control" name="comment" placeholder="Comment" rows="2"></textarea>
+
+            </form>
+
+        </div>
+    </div>
+    <div class="modal fade" id="deleteTask" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/delete-task" method="post">
+                    <input type="hidden" name="taskId" th:value="${task.id}">
+                    <input type="hidden" name="folderId" th:value="${folder.id}">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">DELETE TASK</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>Are you sure?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">NO
+                        </button>
+                        <button type="submit" class="btn btn-danger">YES</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div th:each="comment: ${comments}" class="container row mt-2 mx-auto bg-info rounded-3">
+        <h5 class="mb-3 text-light text-center" th:text="${comment.comment}">
+        </h5>
+    </div>
+</div>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="main_layout.html">
+<div layout:fragment="main_page">
+    <div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new-folder">
+            + New Folder
+        </button>
+    </div>
+    <div th:each="folder: ${folders}" class="card my-3">
+        <div class="card-body">
+            <h4 class="mb-2" th:text="${folder.name}"></h4>
+        </div>
+        <div class="card-footer">
+            <a th:href="@{'/details/' + ${folder.id}}" class="btn btn-primary">Details</a>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-folder">
+                - Delete Folder
+            </button>
+            <div class="modal fade" id="delete-folder" data-bs-backdrop="static" data-bs-keyboard="false"
+                 tabindex="-1" aria-labelledby="staticBackdropLabel1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="/delete-folder" method="post">
+                            <input type="hidden" name="id" th:value="${folder.id}">
+
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel1">DELETE FOLDER</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h5>Are you sure?</h5>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">NO
+                                </button>
+                                <button type="submit" class="btn btn-danger">YES</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</html>
+
+
+
+
+<div class="modal fade" id="new-folder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="add-folder" method="post">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Add new folder</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">FOLDER NAME: </span>
+                        <input name="name" type="text" class="form-control" placeholder="Folder name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">ADD FOLDER</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

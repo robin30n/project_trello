@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{'/css/bootstrap.min.css'}">
+    <script type="text/javascript" th:src="@{'/js/bootstrap.bundle.js'}"></script>
+</head>
+<body>
+<div th:insert="navbar.html" class="container-fluid"></div>
+<div class="container mt-2 min-vh-100">
+    <div class="row">
+        <div class="col-12">
+            <div layout:fragment="main_page"></div>
+        </div>
+    </div>
+</div>
+<div class="mt-5" th:insert="footer.html"></div>
+</body>
+</html>
